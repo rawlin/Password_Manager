@@ -11,12 +11,12 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_passwordFragment"
-            app:destination="@id/passwordFragment" />
+            android:id="@+id/action_loginFragment_to_passwordListFragment"
+            app:destination="@id/passwordListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/passwordFragment"
-        android:name="com.example.passwordmanager.PasswordFragment"
-        android:label="password_fragment"
-        tools:layout="@layout/password_fragment" />
+        android:id="@+id/passwordListFragment"
+        android:name="com.example.passwordmanager.PasswordListFragment"
+        android:label="fragment_password_list"
+        tools:layout="@layout/fragment_password_list" />
 </navigation>

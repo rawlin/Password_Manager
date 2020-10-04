@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 
 import com.example.passwordmanager.R
 import com.google.firebase.auth.FirebaseAuth
@@ -116,7 +117,7 @@ class LoginFragment : Fragment() {
 
     private fun updateUiWithUser(user: FirebaseUser) {
         val welcome = getString(R.string.welcome) + user.displayName
-        // TODO : initiate successful logged in experience
+        Navigation.findNavController(this.requireView()).navigate(R.id.action_loginFragment_to_passwordListFragment)
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
