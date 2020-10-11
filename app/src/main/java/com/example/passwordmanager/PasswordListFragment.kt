@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_password_list.*
@@ -13,14 +17,19 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
 
     private lateinit var viewModel: PasswordViewModel
     private lateinit var passwordAdapter: PasswordRecyclerAdapter
+    private val regArgs:RegisterFragmentArgs by navArgs()
+    private val logArgs:LoginFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel=ViewModelProvider(this,PasswordViewModelFactory(requireActivity().application)).get(PasswordViewModel::class.java)
+        viewModel.passwords.observe(viewLifecycleOwner, Observer {
+            passwordAdapter.differ.submitList(it)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

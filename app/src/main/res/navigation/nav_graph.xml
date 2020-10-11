@@ -7,16 +7,38 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.passwordmanager.ui.login.LoginFragment"
+        android:name="com.example.passwordmanager.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_passwordListFragment"
             app:destination="@id/passwordListFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.google.firebase.auth.FirebaseUser" />
     </fragment>
     <fragment
         android:id="@+id/passwordListFragment"
         android:name="com.example.passwordmanager.PasswordListFragment"
         android:label="fragment_password_list"
-        tools:layout="@layout/fragment_password_list" />
+        tools:layout="@layout/fragment_password_list" >
+        <action
+            android:id="@+id/action_passwordListFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.passwordmanager.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_passwordListFragment"
+            app:destination="@id/passwordListFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.google.firebase.auth.FirebaseUser" />
+    </fragment>
 </navigation>
