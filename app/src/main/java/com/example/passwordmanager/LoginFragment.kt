@@ -50,6 +50,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel.loginResult.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Success->{
+                    hideProgressBar()
                     val user=it.data
                     val bundle=Bundle().apply {
                         putParcelable("user",user)
@@ -57,12 +58,25 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_passwordListFragment,bundle)
                 }
                 is Resource.Error->{
+                    hideProgressBar()
                     val msg=it.message
                     Log.e(TAG,msg!!)
                     Toast.makeText(this.context,msg,Toast.LENGTH_LONG).show()
                 }
+                is Resource.Loading->{
+                    showProgressBar()
+                }
             }
         })
 
+    }
+
+
+    private fun showProgressBar(){
+        progressBar.visibility=View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        progressBar.visibility=View.INVISIBLE
     }
 }

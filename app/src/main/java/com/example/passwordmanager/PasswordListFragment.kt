@@ -27,7 +27,8 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel=ViewModelProvider(this,PasswordViewModelFactory(requireActivity().application)).get(PasswordViewModel::class.java)
-        viewModel.passwords.observe(viewLifecycleOwner, Observer {
+        recyclerSetup()
+        viewModel.passwords.observe(viewLifecycleOwner, {
             passwordAdapter.differ.submitList(it)
         })
     }
