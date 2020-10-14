@@ -18,20 +18,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var viewModel: LoginViewModel
     private lateinit var auth: FirebaseAuth
     private val TAG="LoginFragment"
-    override fun onStart() {
-        super.onStart()
-        val currentUser=auth.currentUser
-        if(currentUser!=null){
-            //updateUI(currentuser)
-        }
-    }
+    private var loggedInFromOnStart:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth= FirebaseAuth.getInstance()
     }
 
-
+    override fun onStart() {
+        super.onStart()
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            loggedInFromOnStart=true
+            val bundle=Bundle().apply {
+                putParcelable("user",currentUser)
+            }
+            view?.let { Navigation.findNavController(it).navigate(R.id.action_loginFragment_to_passwordListFragment,bundle) }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +65,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     hideProgressBar()
                     val msg=it.message
                     Log.e(TAG,msg!!)
-                    Toast.makeText(this.context,msg,Toast.LENGTH_LONG).show()
+                    if(!loggedInFromOnStart){
+                        Toast.makeText(this.context,msg,Toast.LENGTH_LONG).show()
+                    }
                 }
                 is Resource.Loading->{
                     showProgressBar()

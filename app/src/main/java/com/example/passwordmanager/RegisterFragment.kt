@@ -63,4 +63,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun hideProgressBar(){
         progressBar2.visibility=View.INVISIBLE
     }
+
+
 }
