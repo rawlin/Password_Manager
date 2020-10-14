@@ -1,6 +1,7 @@
 package com.example.passwordmanager
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -10,6 +11,10 @@ import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.add_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_password_list.*
 
 
@@ -22,15 +27,33 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
 
 
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomNavView.background=null
+        bottomNavView.menu.getItem(2).isEnabled=false
         viewModel=ViewModelProvider(this,PasswordViewModelFactory(requireActivity().application)).get(PasswordViewModel::class.java)
         recyclerSetup()
         viewModel.passwords.observe(viewLifecycleOwner, {
             passwordAdapter.differ.submitList(it)
         })
+        fab.setOnClickListener {
+            val dialogBuilder=AlertDialog.Builder(this.context)
+            dialogBuilder.setTitle("Enter Details")
+            val view=layoutInflater.inflate(R.layout.add_dialog,null)
+            dialogBuilder.setView(view)
+
+            val alertDialog=dialogBuilder.create()
+            alertDialog.show()
+
+            view.enterD.setOnClickListener {
+                val name=it.editTextTextPersonName.text.toString()
+                val email=it.editTextTextEmailAddress.text.toString()
+                val pass=it.editTextTextPassword.text.toString()
+                val password=Password(email = email,encPwd = pass,name = name,uid = "123")
+                viewModel.insert(password)
+            }
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -38,22 +61,7 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
         inflater.inflate(R.menu.pass_menu,menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.genpwd->{
-                true
-            }
-            R.id.add->{
-                true
-            }
-            R.id.rmv->{
-                true
-            }
 
-            else->super.onOptionsItemSelected(item)
-        }
-
-    }
 
     private fun recyclerSetup(){
         passwordAdapter= PasswordRecyclerAdapter()
@@ -63,3 +71,4 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
         }
     }
 }
+

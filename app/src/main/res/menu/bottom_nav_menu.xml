@@ -10,6 +10,10 @@
         android:icon="@drawable/ic_search"
         />
     <item
+        android:id="@+id/placeholder"
+        android:title=""
+        />
+    <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_person"
         android:title="Profile" />

@@ -5,7 +5,11 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.passwordmanager.PasswordDatabase.Companion.getInstance
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class PasswordViewModel( application: Application) :AndroidViewModel(application){
 
@@ -21,14 +25,20 @@ class PasswordViewModel( application: Application) :AndroidViewModel(application
         passwords=repository.passwords
     }
 
-    suspend fun insert(password: Password){
-        repository.insert(password)
-        Toast.makeText(context,"Inserted for ${password.name}",Toast.LENGTH_SHORT).show()
+    fun insert(password: Password){
+        viewModelScope.launch(IO) {
+            repository.insert(password)
+        }
+        Timber.d("Inserted ${password.name}")
+
     }
 
-    suspend fun delete(password: Password){
-        repository.delete(password)
-        Toast.makeText(context,"Deleted for ${password.name}",Toast.LENGTH_SHORT).show()
+    fun delete(password: Password){
+        viewModelScope.launch(IO) {
+            repository.delete(password)
+        }
+
+        Timber.d("Deleted user")
     }
 
 
