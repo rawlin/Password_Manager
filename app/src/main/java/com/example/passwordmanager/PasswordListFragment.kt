@@ -36,6 +36,7 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
         viewModel.passwords.observe(viewLifecycleOwner, {
             passwordAdapter.differ.submitList(it)
         })
+        
         fab.setOnClickListener {
             val dialogBuilder=AlertDialog.Builder(this.context)
             dialogBuilder.setTitle("Enter Details")
@@ -69,6 +70,12 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
             adapter=passwordAdapter
             layoutManager=LinearLayoutManager(activity)
         }
+
+    }
+
+    private fun asd(){
+        val context=activity?.applicationContext
+        
     }
 }
 
