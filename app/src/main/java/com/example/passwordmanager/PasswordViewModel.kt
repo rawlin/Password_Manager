@@ -25,10 +25,9 @@ class PasswordViewModel( application: Application) :AndroidViewModel(application
         passwords=repository.passwords
     }
 
-    fun insert(password: Password){
-        viewModelScope.launch(IO) {
-            repository.insert(password)
-        }
+    fun insert(password: Password)=viewModelScope.launch(IO){
+
+        repository.insert(password)
         Timber.d("Inserted ${password.name}")
 
     }

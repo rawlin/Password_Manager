@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.add_dialog.*
 import kotlinx.android.synthetic.main.add_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_password_list.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
@@ -38,6 +43,7 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
         })
         
         fab.setOnClickListener {
+
             val dialogBuilder=AlertDialog.Builder(this.context)
             dialogBuilder.setTitle("Enter Details")
             val view=layoutInflater.inflate(R.layout.add_dialog,null)
@@ -45,13 +51,18 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
 
             val alertDialog=dialogBuilder.create()
             alertDialog.show()
-
+            view.cancelD.setOnClickListener {
+                alertDialog.cancel()
+            }
             view.enterD.setOnClickListener {
-                val name=it.editTextTextPersonName.text.toString()
-                val email=it.editTextTextEmailAddress.text.toString()
-                val pass=it.editTextTextPassword.text.toString()
-                val password=Password(email = email,encPwd = pass,name = name,uid = "123")
+                val name=view.editTextTextPersonName.text.toString()
+                val email=view.editTextTextEmailAddress.text.toString()
+                val pass=view.editTextTextPassword.text.toString()
+                val password=Password(email = email,encPwd = pass,name = name,uid = getUserUID())
+                Timber.d("Input"+name+" "+email+" "+pass)
+
                 viewModel.insert(password)
+                alertDialog.cancel()
             }
         }
 
@@ -73,9 +84,14 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
 
     }
 
-    private fun asd(){
-        val context=activity?.applicationContext
-        
+    private fun getUserUID():String{
+        if(regArgs.user==null){
+            return logArgs.user.uid
+        }else{
+            return regArgs.user.uid
+        }
     }
+
+
 }
 
