@@ -1,16 +1,15 @@
-package com.example.passwordmanager.database
+package com.example.passwordmanager.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.passwordmanager.Password
 
 @Dao
 interface PasswordDao {
     @Insert
-    suspend fun insert(password:Password)
+    suspend fun insert(password: Password)
 
     @Query("SELECT * FROM users_table ")
     fun getAll():LiveData<List<Password>>

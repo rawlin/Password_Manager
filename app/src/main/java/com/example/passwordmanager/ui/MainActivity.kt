@@ -1,8 +1,8 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.auth.FirebaseAuth
+import com.example.passwordmanager.R
 
 class MainActivity : AppCompatActivity() {
 

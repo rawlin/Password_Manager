@@ -1,6 +1,8 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.example.passwordmanager.db.Password
+import com.example.passwordmanager.db.PasswordDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

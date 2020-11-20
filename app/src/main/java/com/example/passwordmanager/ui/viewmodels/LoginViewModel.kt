@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.ui.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -6,20 +6,17 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
-import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.passwordmanager.PasswordApplication
+import com.example.passwordmanager.others.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.math.log
 
 class LoginViewModel(app:Application) :AndroidViewModel(app){
     private val context=getApplication<Application>().applicationContext
@@ -39,7 +36,7 @@ class LoginViewModel(app:Application) :AndroidViewModel(app){
 
     fun login(email:String,password: String){
 
-        _loginResult.value=Resource.Loading()
+        _loginResult.value= Resource.Loading()
         try{
             if(hasInternetConnection()){
                 if(validation(email,password,password)){
@@ -61,7 +58,7 @@ class LoginViewModel(app:Application) :AndroidViewModel(app){
                     Timber.e("Invalid Credentials")
                 }
             }else{
-                _loginResult.value=Resource.Error("No Internet Connection")
+                _loginResult.value= Resource.Error("No Internet Connection")
                 Timber.e("No Internet")
             }
         }catch (t:Throwable){
@@ -80,7 +77,7 @@ class LoginViewModel(app:Application) :AndroidViewModel(app){
 
     fun register(email:String,password: String,cnfPassword: String){
 
-        _registerResult.value=Resource.Loading()
+        _registerResult.value= Resource.Loading()
         try {
             if(hasInternetConnection()){
                 if(validation(email,password,cnfPassword)){
@@ -98,11 +95,11 @@ class LoginViewModel(app:Application) :AndroidViewModel(app){
                             }
                     }
                 }else{
-                    _registerResult.value=Resource.Error("Invalid Credentials")
+                    _registerResult.value= Resource.Error("Invalid Credentials")
                     Timber.e("Invalid Credentials")
                 }
             }else{
-                _registerResult.value=Resource.Error("No Internet Connection")
+                _registerResult.value= Resource.Error("No Internet Connection")
                 Timber.e("No Internet")
             }
 

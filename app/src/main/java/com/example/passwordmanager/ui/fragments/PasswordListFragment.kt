@@ -1,25 +1,19 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.ui.fragments
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.add_dialog.*
+import com.example.passwordmanager.ui.viewmodels.PasswordViewModelFactory
+import com.example.passwordmanager.R
+import com.example.passwordmanager.adapters.PasswordRecyclerAdapter
+import com.example.passwordmanager.db.Password
+import com.example.passwordmanager.ui.viewmodels.PasswordViewModel
 import kotlinx.android.synthetic.main.add_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_password_list.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 
@@ -36,7 +30,8 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavView.background=null
         bottomNavView.menu.getItem(2).isEnabled=false
-        viewModel=ViewModelProvider(this,PasswordViewModelFactory(requireActivity().application)).get(PasswordViewModel::class.java)
+        viewModel=ViewModelProvider(this, PasswordViewModelFactory(requireActivity().application)).get(
+            PasswordViewModel::class.java)
         recyclerSetup()
         viewModel.passwords.observe(viewLifecycleOwner, {
             passwordAdapter.differ.submitList(it)
@@ -58,7 +53,7 @@ class PasswordListFragment : Fragment(R.layout.fragment_password_list) {
                 val name=view.editTextTextPersonName.text.toString()
                 val email=view.editTextTextEmailAddress.text.toString()
                 val pass=view.editTextTextPassword.text.toString()
-                val password=Password(email = email,encPwd = pass,name = name,uid = getUserUID())
+                val password= Password(email = email,encPwd = pass,name = name,uid = getUserUID())
                 Timber.d("Input"+name+" "+email+" "+pass)
 
                 viewModel.insert(password)

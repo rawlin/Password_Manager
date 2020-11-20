@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
